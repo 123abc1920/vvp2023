@@ -5,10 +5,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +21,16 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Image;
+
 import javax.swing.JLayeredPane;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+
+import javax.imageio.ImageIO;
+import javax.swing.Box;
 
 public class PolynomWin extends JFrame {
 
@@ -42,8 +54,56 @@ public class PolynomWin extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.NORTH);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+		panel.add(horizontalStrut_1);
+
+		JButton saveButton = new JButton("Save");
+		saveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int w = graphicLayout.getWidth(), h = graphicLayout.getHeight();
+					BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+					Graphics g = image.createGraphics();
+					graphicLayout.paint(g);
+					ImageIO.write(image, "jpeg", new File("example.jpeg"));
+				} catch (IOException err) {
+					System.err.println(err);
+				}
+			}
+		});
+		panel.add(saveButton);
+
+		Component horizontalStrut = Box.createHorizontalStrut(10);
+		panel.add(horizontalStrut);
+
+		JLabel infoLabel = new JLabel();
+		infoLabel.setText("S=" + Task1_16.polynom.findS() + " P=" + Task1_16.polynom.findP());
+		panel.add(infoLabel);
+
+		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+		panel.add(horizontalStrut_2);
+
 		graphicLayout = new DrawingPanel();
 		contentPane.add(graphicLayout, BorderLayout.CENTER);
+		graphicLayout.addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				int width = Task1_16.rectangle.getTops().get(0).getX() - Task1_16.rectangle.getTops().get(3).getX();
+				int height = Task1_16.rectangle.getTops().get(1).getY() - Task1_16.rectangle.getTops().get(0).getY();
+
+				if (graphicLayout.getHeight() / Task1_16.win1.getMas() < height - 1
+						|| graphicLayout.getWidth() / Task1_16.win1.getMas() < width - 1) {
+					Task1_16.win1.setMas(Task1_16.win1.getMas() - 5);
+				} else if ((graphicLayout.getHeight() / Task1_16.win1.getMas()) - height > 3
+						|| (graphicLayout.getWidth() / Task1_16.win1.getMas()) - width > 3) {
+					Task1_16.win1.setMas(Task1_16.win1.getMas() + 5);
+				}
+			}
+		});
 
 		graphicLayout.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -52,8 +112,10 @@ public class PolynomWin extends JFrame {
 				startY = (int) -Math
 						.round((e.getY() - (Task1_16.win1.getFrameSize().getY() / 2.0)) / Task1_16.win1.getMas());
 
-				for (Point p : Task1_16.polynom.getTops()) {
-					if (startX == p.getX() && startY == p.getY()) {
+				if (startX < Task1_16.rectangle.getTops().get(0).getX()
+						&& startX > Task1_16.rectangle.getTops().get(3).getX()) {
+					if (startY < Task1_16.rectangle.getTops().get(2).getY()
+							&& startY > Task1_16.rectangle.getTops().get(0).getY()) {
 						dragBool = true;
 					}
 				}
@@ -67,16 +129,11 @@ public class PolynomWin extends JFrame {
 					int newY = (int) -Math
 							.round((e.getY() - (Task1_16.win1.getFrameSize().getY() / 2.0)) / Task1_16.win1.getMas());
 
-					List<Point> list = new ArrayList<Point>();
 					int movementX = (int) (newX - startX);
 					int movementY = (int) (newY - startY);
 
-					for (int i = 0; i < Task1_16.polynom.getTops().size(); i++) {
-						list.add(new Point(Task1_16.polynom.getTops().get(i).getX() + movementX,
-								Task1_16.polynom.getTops().get(i).getY() + movementY));
-					}
-
-					Task1_16.polynom.setTops(list);
+					newTops(movementX, movementY, Task1_16.polynom);
+					newTops(movementX, movementY, Task1_16.rectangle);
 
 					graphicLayout.repaint();
 				}
@@ -85,10 +142,17 @@ public class PolynomWin extends JFrame {
 		});
 	}
 
-	public Point getFrameSize() {
-		Rectangle r = this.getBounds();
+	private void newTops(int movementX, int movementY, Polynom polynom) {
+		List<Point> list = new ArrayList<Point>();
+		for (int i = 0; i < polynom.getTops().size(); i++) {
+			list.add(new Point(polynom.getTops().get(i).getX() + movementX,
+					polynom.getTops().get(i).getY() + movementY));
+		}
+		polynom.setTops(list);
+	}
 
-		return new Point(r.width, r.height);
+	public Point getFrameSize() {
+		return new Point(graphicLayout.getWidth(), graphicLayout.getHeight());
 	}
 
 	public int getMas() {
