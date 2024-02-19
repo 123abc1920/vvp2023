@@ -28,9 +28,11 @@ import javax.swing.JLayeredPane;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
+import javax.swing.JScrollPane;
 
 public class PolynomWin extends JFrame {
 
@@ -88,22 +90,12 @@ public class PolynomWin extends JFrame {
 		Component horizontalStrut_2 = Box.createHorizontalStrut(20);
 		panel.add(horizontalStrut_2);
 
-		graphicLayout = new DrawingPanel();
-		contentPane.add(graphicLayout, BorderLayout.CENTER);
-		graphicLayout.addComponentListener(new ComponentAdapter() {
-			public void componentResized(ComponentEvent e) {
-				int width = Task1_16.rectangle.getTops().get(0).getX() - Task1_16.rectangle.getTops().get(3).getX();
-				int height = Task1_16.rectangle.getTops().get(1).getY() - Task1_16.rectangle.getTops().get(0).getY();
+		JScrollPane scrollPane = new JScrollPane();
+		contentPane.add(scrollPane, BorderLayout.CENTER);
 
-				if (graphicLayout.getHeight() / Task1_16.win1.getMas() < height - 1
-						|| graphicLayout.getWidth() / Task1_16.win1.getMas() < width - 1) {
-					Task1_16.win1.setMas(Task1_16.win1.getMas() - 5);
-				} else if ((graphicLayout.getHeight() / Task1_16.win1.getMas()) - height > 3
-						|| (graphicLayout.getWidth() / Task1_16.win1.getMas()) - width > 3) {
-					Task1_16.win1.setMas(Task1_16.win1.getMas() + 5);
-				}
-			}
-		});
+		graphicLayout = new DrawingPanel();
+		graphicLayout.setPreferredSize(new Dimension(20 * mas, 20 * mas));
+		scrollPane.setViewportView(graphicLayout);
 
 		graphicLayout.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -162,6 +154,7 @@ public class PolynomWin extends JFrame {
 	public void setMas(int mas) {
 		if (mas > 0 && mas < 80) {
 			this.mas = mas;
+			graphicLayout.setPreferredSize(new Dimension(20 * mas, 20 * mas));
 		}
 	}
 }

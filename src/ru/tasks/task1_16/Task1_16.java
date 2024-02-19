@@ -1,5 +1,7 @@
 package ru.tasks.task1_16;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,20 @@ public class Task1_16 {
 		rectangle = new Polynom(createRectangle());
 
 		win1 = new PolynomWin();
+		win1.addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				int width = (Task1_16.rectangle.getTops().get(0).getX() - Task1_16.rectangle.getTops().get(3).getX());
+				int height = (Task1_16.rectangle.getTops().get(1).getY() - Task1_16.rectangle.getTops().get(0).getY());
+
+				if (win1.getHeight() / Task1_16.win1.getMas() - height < 3
+						|| win1.getWidth() / Task1_16.win1.getMas() - width < 3) {
+					Task1_16.win1.setMas(Task1_16.win1.getMas() - 5);
+				} else if ((win1.getHeight() / Task1_16.win1.getMas()) - height > 7
+						|| (win1.getWidth() / Task1_16.win1.getMas()) - width > 7) {
+					Task1_16.win1.setMas(Task1_16.win1.getMas() + 5);
+				}
+			}
+		});
 		win1.setVisible(true);
 	}
 

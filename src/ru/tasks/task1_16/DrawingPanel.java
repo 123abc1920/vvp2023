@@ -25,9 +25,9 @@ public class DrawingPanel extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 
+		m = Task1_16.win1.getMas();
 		w = Task1_16.win1.getFrameSize().getX();
 		h = Task1_16.win1.getFrameSize().getY();
-		m = Task1_16.win1.getMas();
 
 		g2d.translate(w / 2, h / 2);
 
