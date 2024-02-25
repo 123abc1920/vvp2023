@@ -6,13 +6,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class DrawingPanel extends JPanel {
@@ -26,8 +22,8 @@ public class DrawingPanel extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 
 		m = Task1_16.win1.getMas();
-		w = Task1_16.win1.getFrameSize().getX();
-		h = Task1_16.win1.getFrameSize().getY();
+		w = Task1_16.win1.getPanelSize().getX();
+		h = Task1_16.win1.getPanelSize().getY();
 
 		g2d.translate(w / 2, h / 2);
 

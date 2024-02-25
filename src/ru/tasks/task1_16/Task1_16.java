@@ -4,6 +4,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Task1_16 {
 	public static Polynom polynom;
@@ -14,14 +15,7 @@ public class Task1_16 {
 	private static int b = 0;
 
 	public static void main(String[] args) {
-		Point p1 = new Point(1, 1);
-		Point p2 = new Point(1, -1);
-		Point p3 = new Point(-1, 1);
-		List<Point> points = new ArrayList<>();
-		points.add(p1);
-		points.add(p2);
-		points.add(p3);
-		polynom = new Polynom(points);
+		polynom = new Polynom(createPoints());
 		rectangle = new Polynom(createRectangle());
 
 		win1 = new PolynomWin();
@@ -40,6 +34,22 @@ public class Task1_16 {
 			}
 		});
 		win1.setVisible(true);
+	}
+
+	private static List<Point> createPoints() {
+		List<Point> points = new ArrayList<>();
+		Scanner scanner = new Scanner(System.in);
+		
+		String s = "";
+		while (true) {
+			s = scanner.nextLine();
+			Scanner mini = new Scanner(s);
+			mini.useDelimiter(" ");
+			if (s.equals("end")) {
+				return points;
+			}
+			points.add(new Point(mini.nextInt(), mini.nextInt()));
+		}
 	}
 
 	private static List<Point> createRectangle() {

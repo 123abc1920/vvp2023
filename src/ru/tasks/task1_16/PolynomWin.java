@@ -3,16 +3,15 @@ package ru.tasks.task1_16;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.BorderLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +19,22 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Image;
 
-import javax.swing.JLayeredPane;
-import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.JScrollPane;
+
+import org.apache.batik.dom.GenericDOMImplementation;
+import org.apache.batik.svggen.SVGGraphics2D;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+
+import java.io.Writer;
+import java.io.OutputStreamWriter;
 
 public class PolynomWin extends JFrame {
 
@@ -60,7 +62,7 @@ public class PolynomWin extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
-		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+		Component horizontalStrut_1 = Box.createHorizontalStrut(this.getWidth() / 3);
 		panel.add(horizontalStrut_1);
 
 		JButton saveButton = new JButton("Save");
@@ -73,6 +75,17 @@ public class PolynomWin extends JFrame {
 					Graphics g = image.createGraphics();
 					graphicLayout.paint(g);
 					ImageIO.write(image, "jpeg", new File("example.jpeg"));
+
+					DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
+					String svgNS = "http://www.w3.org/2000/svg";
+					Document document = domImpl.createDocument(svgNS, "svg", null);
+					SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+					graphicLayout.paintComponent(svgGenerator);
+
+					FileWriter writerSVG = new FileWriter("exampleSVG.svg", false);
+					svgGenerator.stream(writerSVG, true);
+					FileWriter writerXML = new FileWriter("exampleXML.xml", false);
+					svgGenerator.stream(writerXML, true);
 				} catch (IOException err) {
 					System.err.println(err);
 				}
@@ -100,9 +113,9 @@ public class PolynomWin extends JFrame {
 		graphicLayout.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				startX = (int) Math
-						.round((e.getX() - (Task1_16.win1.getFrameSize().getX() / 2.0)) / Task1_16.win1.getMas());
+						.round((e.getX() - (Task1_16.win1.getPanelSize().getX() / 2.0)) / Task1_16.win1.getMas());
 				startY = (int) -Math
-						.round((e.getY() - (Task1_16.win1.getFrameSize().getY() / 2.0)) / Task1_16.win1.getMas());
+						.round((e.getY() - (Task1_16.win1.getPanelSize().getY() / 2.0)) / Task1_16.win1.getMas());
 
 				if (startX < Task1_16.rectangle.getTops().get(0).getX()
 						&& startX > Task1_16.rectangle.getTops().get(3).getX()) {
@@ -117,9 +130,9 @@ public class PolynomWin extends JFrame {
 				if (dragBool) {
 					dragBool = false;
 					int newX = (int) Math
-							.round((e.getX() - (Task1_16.win1.getFrameSize().getX() / 2.0)) / Task1_16.win1.getMas());
+							.round((e.getX() - (Task1_16.win1.getPanelSize().getX() / 2.0)) / Task1_16.win1.getMas());
 					int newY = (int) -Math
-							.round((e.getY() - (Task1_16.win1.getFrameSize().getY() / 2.0)) / Task1_16.win1.getMas());
+							.round((e.getY() - (Task1_16.win1.getPanelSize().getY() / 2.0)) / Task1_16.win1.getMas());
 
 					int movementX = (int) (newX - startX);
 					int movementY = (int) (newY - startY);
@@ -143,7 +156,7 @@ public class PolynomWin extends JFrame {
 		polynom.setTops(list);
 	}
 
-	public Point getFrameSize() {
+	public Point getPanelSize() {
 		return new Point(graphicLayout.getWidth(), graphicLayout.getHeight());
 	}
 
