@@ -5,6 +5,8 @@ import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Task1_16 {
 	public static Polynom polynom;
@@ -13,8 +15,16 @@ public class Task1_16 {
 
 	private static int a = 0;
 	private static int b = 0;
+	private static CmdParams params;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
+		if (args.length == 1) {
+			params = new CmdParams(args[0]);
+		} else {
+			System.out.print("Error");
+			return;
+		}
+
 		polynom = new Polynom(createPoints());
 		rectangle = new Polynom(createRectangle());
 
@@ -36,20 +46,37 @@ public class Task1_16 {
 		win1.setVisible(true);
 	}
 
-	private static List<Point> createPoints() {
+	private static List<Point> createPoints() throws FileNotFoundException {
 		List<Point> points = new ArrayList<>();
-		Scanner scanner = new Scanner(System.in);
-		
+
+		// from file
+		Scanner scanner = new Scanner(new File("InputFiles\\Task1_16\\input.txt"));
 		String s = "";
 		while (true) {
+			if (scanner.nextLine().equals(params.getTest())) {
+				break;
+			}
+		}
+
+		while (!s.contains("Test")) {
 			s = scanner.nextLine();
 			Scanner mini = new Scanner(s);
 			mini.useDelimiter(" ");
-			if (s.equals("end")) {
+			if (s.contains("Test")) {
 				return points;
 			}
 			points.add(new Point(mini.nextInt(), mini.nextInt()));
 		}
+
+		return points;
+
+		// from console
+		/*
+		 * Scanner scanner = new Scanner(System.in); String s = ""; while (true) { s =
+		 * scanner.nextLine(); Scanner mini = new Scanner(s); mini.useDelimiter(" "); if
+		 * (s.equals("end")) { return points; } points.add(new Point(mini.nextInt(),
+		 * mini.nextInt())); }
+		 */
 	}
 
 	private static List<Point> createRectangle() {

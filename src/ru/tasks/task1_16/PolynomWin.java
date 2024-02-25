@@ -70,11 +70,11 @@ public class PolynomWin extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					int w = graphicLayout.getWidth(), h = graphicLayout.getHeight();
-					BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+					BufferedImage image = new BufferedImage(graphicLayout.getWidth(), graphicLayout.getHeight(),
+							BufferedImage.TYPE_INT_RGB);
 					Graphics g = image.createGraphics();
 					graphicLayout.paint(g);
-					ImageIO.write(image, "jpeg", new File("example.jpeg"));
+					ImageIO.write(image, "jpeg", new File("OutputFiles\\Task1_16\\example.jpeg"));
 
 					DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 					String svgNS = "http://www.w3.org/2000/svg";
@@ -82,9 +82,9 @@ public class PolynomWin extends JFrame {
 					SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
 					graphicLayout.paintComponent(svgGenerator);
 
-					FileWriter writerSVG = new FileWriter("exampleSVG.svg", false);
+					FileWriter writerSVG = new FileWriter("OutputFiles\\Task1_16\\exampleSVG.svg", false);
 					svgGenerator.stream(writerSVG, true);
-					FileWriter writerXML = new FileWriter("exampleXML.xml", false);
+					FileWriter writerXML = new FileWriter("OutputFiles\\Task1_16\\exampleXML.xml", false);
 					svgGenerator.stream(writerXML, true);
 				} catch (IOException err) {
 					System.err.println(err);
