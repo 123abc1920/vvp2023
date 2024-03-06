@@ -23,26 +23,76 @@ public class TheList<T> implements Iterable<T> {
 		}
 	}
 
-	public void changeHead(TheElement head) {
-		this.head = head;
+	public void change(int a, int b) {
+		if (a > b) {
+			int c = b;
+			b = a;
+			a = c;
+		}
+
+		TheElement from = this.get(a);
+		TheElement to = this.get(b);
+		TheElement a1 = from.getPrevious();
+		TheElement a2 = from.getNext();
+		TheElement b1 = to.getPrevious();
+		TheElement b2 = to.getNext();
+
+		if (Math.abs(a - b) > 1) {
+			setMains(from, b1, b2);
+			setMains(to, a1, a2);
+			setRefs(to, a1, a2);
+			setRefs(from, b1, b2);
+		} else if (Math.abs(a - b) == 0) {
+			return;
+		} else {
+			setRefs(to, a1, null);
+			setRefs(from, null, b2);
+			setMains(to, a1, from);
+			setMains(from, to, b2);
+		}
+
+		if (a == 0) {
+			head = to;
+		}
+		if (b == this.size() - 1) {
+			tail = from;
+		}
 	}
 
-	public void changeTail(TheElement tail) {
-		this.tail = tail;
+	public void setRefs(TheElement A, TheElement a1, TheElement a2) {
+		if (a1 != null) {
+			a1.setNext(A);
+		}
+		if (a2 != null) {
+			a2.setPrevious(A);
+		}
+	}
+
+	private void setMains(TheElement A, TheElement a1, TheElement a2) {
+		A.setNext(a2);
+		A.setPrevious(a1);
 	}
 
 	public void addEnd(Object a) {
 		TheElement el = new TheElement(a);
-		this.tail.setNext(el);
-		el.setPrevious(this.tail);
+		if (this.head == null) {
+			this.head = el;
+		} else {
+			this.tail.setNext(el);
+			el.setPrevious(this.tail);
+		}
 
 		this.tail = el;
 	}
 
 	public void addStart(Object a) {
 		TheElement el = new TheElement(a);
-		this.head.setPrevious(el);
-		el.setNext(this.head);
+		if (this.head != null) {
+			this.head.setPrevious(el);
+			el.setNext(this.head);
+		} else {
+			this.tail = el;
+		}
 
 		this.head = el;
 	}
@@ -99,6 +149,16 @@ public class TheList<T> implements Iterable<T> {
 		this.tail = this.head;
 	}
 
+	public TheList<TheElement> copy(int start, int end) {
+		TheList<TheElement> lst = new TheList<>();
+
+		for (int i = start; i < end; i++) {
+			lst.addEnd(this.get(i).getValue());
+		}
+
+		return lst;
+	}
+
 	@Override
 	public Iterator<T> iterator() {
 		return new Iterator<T>() {
@@ -106,12 +166,12 @@ public class TheList<T> implements Iterable<T> {
 
 			@Override
 			public boolean hasNext() {
-				return a < Task2_25.l.size();
+				return a < Win2_25.l.size();
 			}
 
 			@Override
 			public T next() {
-				return (T) Task2_25.l.get(a++);
+				return (T) Win2_25.l.get(a++);
 			}
 
 		};
