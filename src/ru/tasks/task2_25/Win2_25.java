@@ -52,9 +52,6 @@ public class Win2_25 extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		Component verticalStrut = Box.createVerticalStrut(20);
-		panel.add(verticalStrut);
-
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS));
@@ -102,9 +99,6 @@ public class Win2_25 extends JFrame {
 		contentPane.add(panel_1, BorderLayout.SOUTH);
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
 
-		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
-		panel_1.add(horizontalStrut_4);
-
 		JButton addBtn = new JButton("+");
 		addBtn.addActionListener(new ActionListener() {
 			@Override
@@ -115,6 +109,9 @@ public class Win2_25 extends JFrame {
 				second.setModel(changeModel);
 			}
 		});
+
+		Component horizontalGlue_1 = Box.createHorizontalGlue();
+		panel_1.add(horizontalGlue_1);
 		panel_1.add(addBtn);
 
 		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
@@ -160,8 +157,27 @@ public class Win2_25 extends JFrame {
 				if (l.size() % 2 != 0) {
 					changeModel.setValueAt(l.get(l.size() / 2).getValue(), 0, l.size() / 2);
 				}
+				try {
+					ReadWrite.write(l);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
+
+		JButton clearBtn = new JButton("Clear");
+		clearBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				colCount = 1;
+				model = new DefaultTableModel(1, colCount);
+				first.setModel(model);
+			}
+		});
+		panel_1.add(clearBtn);
+
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		panel_1.add(horizontalStrut);
 		panel_1.add(changeBtn);
 
 		Component horizontalStrut_7 = Box.createHorizontalStrut(20);
@@ -171,13 +187,18 @@ public class Win2_25 extends JFrame {
 		deleteBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				colCount--;
+				if (colCount > 1) {
+					colCount--;
+				}
 				model.setColumnCount(colCount);
 				first.setModel(model);
 				second.setModel(changeModel);
 			}
 		});
 		panel_1.add(deleteBtn);
+
+		Component horizontalGlue = Box.createHorizontalGlue();
+		panel_1.add(horizontalGlue);
 	}
 
 }
