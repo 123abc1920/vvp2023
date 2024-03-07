@@ -19,6 +19,7 @@ import javax.swing.Box;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
 
 public class Win2_25 extends JFrame {
 
@@ -63,6 +64,7 @@ public class Win2_25 extends JFrame {
 		panel.add(verticalStrut_2);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(new EmptyBorder(25, 25, 0, 25));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		panel.add(scrollPane);
 
@@ -83,6 +85,7 @@ public class Win2_25 extends JFrame {
 		panel.add(verticalStrut_3);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBorder(new EmptyBorder(25, 25, 0, 25));
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		panel.add(scrollPane_1);
 
