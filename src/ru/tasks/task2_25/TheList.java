@@ -2,20 +2,20 @@ package ru.tasks.task2_25;
 
 import java.util.Iterator;
 
-public class TheList<T> implements Iterable<T> {
+public class TheList<T> implements Iterable<TheElement<T>> {
 	private TheElement head = null;
 	private TheElement tail = null;
 
 	public TheList() {
 	}
 
-	public TheList(Object a) {
-		this.head = new TheElement(a);
+	public TheList(T a) {
+		this.head = new TheElement<>(a);
 		this.tail = head;
 	}
 
-	public TheList(Object... a) {
-		this.head = new TheElement(a[0]);
+	public TheList(T... a) {
+		this.head = new TheElement<>(a[0]);
 		this.tail = head;
 
 		for (int i = 1; i < a.length; i++) {
@@ -160,8 +160,8 @@ public class TheList<T> implements Iterable<T> {
 	}
 
 	@Override
-	public Iterator<T> iterator() {
-		return new Iterator<T>() {
+	public Iterator<TheElement<T>> iterator() {
+		return new Iterator<TheElement<T>>() {
 			int a = 0;
 
 			@Override
@@ -170,8 +170,8 @@ public class TheList<T> implements Iterable<T> {
 			}
 
 			@Override
-			public T next() {
-				return (T) Win2_25.l.get(a++);
+			public TheElement<T> next() {
+				return Win2_25.l.get(a++);
 			}
 
 		};

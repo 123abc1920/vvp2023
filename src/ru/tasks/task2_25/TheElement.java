@@ -1,11 +1,11 @@
 package ru.tasks.task2_25;
 
-public class TheElement {
-    private Object value;
+public class TheElement<T> {
+    private T value;
     private TheElement next;
     private TheElement previous;
 
-    public TheElement(Object value) {
+    public TheElement(T value) {
         this.value = value;
         this.next = null;
         this.previous = null;
@@ -19,7 +19,7 @@ public class TheElement {
         return this.previous;
     }
 
-    public Object getValue() {
+    public T getValue() {
         return this.value;
     }
 
@@ -31,7 +31,7 @@ public class TheElement {
         this.previous = previous;
     }
 
-    public void setValue(Object value) {
+    public void setValue(T value) {
         this.value = value;
     }
 }
