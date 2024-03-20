@@ -14,9 +14,8 @@ import javax.swing.Box;
 import javax.swing.JScrollPane;
 
 public class Win6 extends JFrame {
-
+	public static DrawingPane DrawPane;
 	private JPanel contentPane;
-	public JPanel DrawPane;
 
 	/**
 	 * Create the frame.
@@ -38,7 +37,7 @@ public class Win6 extends JFrame {
 		panel.add(scrollPane, BorderLayout.CENTER);
 
 		DrawPane = new DrawingPane();
-		DrawPane.setPreferredSize(new Dimension(20 * 50, 20 * 50));
+		DrawPane.setPreferredSize(new Dimension(20 * Task3_6.mas, 20 * Task3_6.mas));
 		scrollPane.setViewportView(DrawPane);
 
 		JPanel panel_1 = new JPanel();
@@ -72,5 +71,4 @@ public class Win6 extends JFrame {
 		Component horizontalGlue_1 = Box.createHorizontalGlue();
 		panel_1.add(horizontalGlue_1);
 	}
-
 }
