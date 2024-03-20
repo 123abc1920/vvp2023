@@ -1,6 +1,7 @@
 package ru.tasks.task3_6;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
@@ -56,6 +57,20 @@ public class DrawingPane extends JPanel {
 					g2d.draw(line);
 				}
 			}
+		}
+
+		g2d.setStroke(new BasicStroke(5));
+		g2d.setColor(Color.RED);
+		if (Task3_6.win.startX != -1 && Task3_6.win.startY != -1) {
+			g2d.drawLine(Task3_6.win.startX * Task3_6.mas + Task3_6.mas / 2,
+					Task3_6.win.startY * Task3_6.mas + Task3_6.mas / 2,
+					Task3_6.win.startX * Task3_6.mas + Task3_6.mas / 2,
+					Task3_6.win.startY * Task3_6.mas + Task3_6.mas / 2);
+		}
+		if (Task3_6.win.endX != -1 && Task3_6.win.endY != -1) {
+			g2d.drawLine(Task3_6.win.endX * Task3_6.mas + Task3_6.mas / 2,
+					Task3_6.win.endY * Task3_6.mas + Task3_6.mas / 2, Task3_6.win.endX * Task3_6.mas + Task3_6.mas / 2,
+					Task3_6.win.endY * Task3_6.mas + Task3_6.mas / 2);
 		}
 	}
 }

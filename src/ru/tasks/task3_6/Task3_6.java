@@ -2,6 +2,7 @@ package ru.tasks.task3_6;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -14,16 +15,10 @@ public class Task3_6 {
 	public static int mas = 50;
 	public static Labirynt l;
 
-	public static void main(String[] args) {
-		Map<Integer, List<G>> map = new HashMap<>();
-		/*map.put(0, Arrays.asList(G.RIGHT));
-		map.put(5, Arrays.asList(G.RIGHT));
-		map.put(2, Arrays.asList(G.BOTTOM));
-		map.put(3, Arrays.asList(G.RIGHT));
-		map.put(7, Arrays.asList(G.RIGHT, G.BOTTOM));
-		map.put(9, Arrays.asList(G.BOTTOM));
-		map.put(12, Arrays.asList(G.RIGHT));*/
-		l = new Labirynt(3, 5, 2, 1, map);
+	public static void main(String[] args) throws FileNotFoundException {
+		Map<Integer, List<G>> map = readWrite.read();
+		int[] arr = readWrite.readSize();
+		l = new Labirynt(arr[0], arr[1], arr[2], arr[3], map);
 
 		win = new Win6();
 		win.setVisible(true);
