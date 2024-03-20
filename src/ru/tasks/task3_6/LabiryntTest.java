@@ -18,8 +18,8 @@ class LabiryntTest {
 
 	@BeforeAll
 	static void init() {
-		//map.put(2, Arrays.asList(G.LEFT));
-		l = new Labirynt(2, 2, map);
+		// map.put(2, Arrays.asList(G.LEFT));
+		l = new Labirynt(2, 2, 1, 2, map);
 	}
 
 	@Test

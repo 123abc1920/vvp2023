@@ -16,9 +16,14 @@ public class Task3_6 {
 
 	public static void main(String[] args) {
 		Map<Integer, List<G>> map = new HashMap<>();
-		map.put(0, Arrays.asList(G.RIGHT));
-		map.put(1, Arrays.asList(G.BOTTOM));
-		l = new Labirynt(2, 2, map);
+		/*map.put(0, Arrays.asList(G.RIGHT));
+		map.put(5, Arrays.asList(G.RIGHT));
+		map.put(2, Arrays.asList(G.BOTTOM));
+		map.put(3, Arrays.asList(G.RIGHT));
+		map.put(7, Arrays.asList(G.RIGHT, G.BOTTOM));
+		map.put(9, Arrays.asList(G.BOTTOM));
+		map.put(12, Arrays.asList(G.RIGHT));*/
+		l = new Labirynt(3, 5, 2, 1, map);
 
 		win = new Win6();
 		win.setVisible(true);
@@ -39,8 +44,8 @@ public class Task3_6 {
 		if (mas < 10) {
 			mas = 10;
 		}
-		if (mas > 50) {
-			mas = 50;
+		if (mas > 70) {
+			mas = 70;
 		}
 		win.DrawPane.repaint();
 	}

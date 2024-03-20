@@ -8,11 +8,13 @@ import ru.tasks.task3_6.Cell.G;
 
 public class Labirynt {
 	private List<Cell> array = new ArrayList<>();
-	private int width, height;
+	private int width, height, top, left;
 
-	public Labirynt(int row, int col, Map<Integer, List<G>> map) {
+	public Labirynt(int row, int col, int top, int left, Map<Integer, List<G>> map) {
 		this.width = col;
 		this.height = row;
+		this.top = top;
+		this.left = left;
 
 		for (int i = 0; i < row * col; i++) {
 			Cell cell = new Cell();
@@ -49,6 +51,6 @@ public class Labirynt {
 	}
 
 	public int[] getSize() {
-		return new int[] { this.width, this.height };
+		return new int[] { this.width, this.height, this.top, this.left };
 	}
 }

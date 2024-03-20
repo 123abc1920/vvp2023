@@ -13,7 +13,7 @@ public class DrawingPane extends JPanel {
 	private int w;
 	private int h;
 	private int m;
-	private int top = 2, left = 2;
+	private int top = Task3_6.l.getSize()[2], left = Task3_6.l.getSize()[3];
 
 	@Override
 	protected void paintComponent(Graphics g) {
