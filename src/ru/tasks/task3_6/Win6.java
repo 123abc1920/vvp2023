@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import javax.swing.JScrollPane;
 public class Win6 extends JFrame {
 	public static DrawingPane DrawPane;
 	public int startX = -1, startY = -1, endX = -1, endY = -1;
+	public List<Cell> Path = new ArrayList<>();
 
 	private JPanel contentPane;
 
@@ -115,6 +117,7 @@ public class Win6 extends JFrame {
 				Task3_6.l.clear();
 				Task3_6.l.update(arr[0], arr[1], arr[2], arr[3], map);
 				startX = startY = endX = endY = -1;
+				Path.clear();
 				DrawPane.repaint();
 			}
 		});
@@ -143,10 +146,10 @@ public class Win6 extends JFrame {
 						start = false;
 						btnStrt.setBackground(null);
 						Task3_6.l.setStart(startX - Task3_6.l.getSize()[3]
-								+ Task3_6.l.getSize()[0] * (startY - Task3_6.l.getSize()[3]));
+								+ Task3_6.l.getSize()[0] * (startY - Task3_6.l.getSize()[3]) - 5);
 						Task3_6.l.setEnd(endX - Task3_6.l.getSize()[3]
-								+ Task3_6.l.getSize()[0] * (endY - Task3_6.l.getSize()[3]));
-						FindPath.find();
+								+ Task3_6.l.getSize()[0] * (endY - Task3_6.l.getSize()[3]) - 5);
+						Path = FindPath.find();
 					}
 				}
 			}

@@ -3,6 +3,8 @@ package ru.tasks.task3_6;
 public class Cell {
 	private Cell[] tops = new Cell[4];
 	private int num;
+	private boolean done = false;
+	private Cell prev = null;
 
 	public enum G {
 		TOP(0), BOTTOM(1), RIGHT(2), LEFT(3);
@@ -42,5 +44,21 @@ public class Cell {
 
 	public int getNum() {
 		return this.num;
+	}
+
+	public void setDone(boolean b) {
+		this.done = b;
+	}
+
+	public boolean getDone() {
+		return this.done;
+	}
+	
+	public void setPrev(Cell c) {
+		this.prev = c;
+	}
+
+	public Cell getPrev() {
+		return this.prev;
 	}
 }

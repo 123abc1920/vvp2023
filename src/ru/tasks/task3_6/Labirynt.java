@@ -39,6 +39,15 @@ public class Labirynt {
 						}
 					}
 				}
+				if (i != 0) {
+					if (!map.containsKey(j * col + i - 1)) {
+						array.get(j * col + i).addTop(array.get(j * col + i - 1), G.LEFT);
+					} else {
+						if (!map.get(j * col + i - 1).contains(G.RIGHT)) {
+							array.get(j * col + i).addTop(array.get(j * col + i - 1), G.LEFT);
+						}
+					}
+				}
 				if (j != row - 1) {
 					if (!map.containsKey(j * col + i)) {
 						array.get(j * col + i).addTop(array.get((j + 1) * col + i), G.BOTTOM);
@@ -48,8 +57,18 @@ public class Labirynt {
 						}
 					}
 				}
+				if (j != 0) {
+					if (!map.containsKey((j - 1) * col + i)) {
+						array.get(j * col + i).addTop(array.get((j - 1) * col + i), G.TOP);
+					} else {
+						if (!map.get((j - 1) * col + i).contains(G.BOTTOM)) {
+							array.get(j * col + i).addTop(array.get((j - 1) * col + i), G.TOP);
+						}
+					}
+				}
 			}
 		}
+
 	}
 
 	public void clear() {
@@ -78,5 +97,12 @@ public class Labirynt {
 
 	public void setEnd(int num) {
 		this.end = this.getArray().get(num);
+	}
+
+	public void setAllNotDone() {
+		for (Cell c : this.array) {
+			c.setDone(false);
+			c.setPrev(null);
+		}
 	}
 }
