@@ -20,6 +20,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,10 +35,12 @@ public class Win6 extends JFrame {
 
 	private JPanel contentPane;
 
-	private Map<Integer, List<G>> map;
+	private Map<Integer, List<G>> map = new HashMap<>();
 	private int[] arr;
 
 	private boolean start = false;
+	private boolean draw = false;
+	private boolean rect = false;
 
 	/**
 	 * Create the frame.
@@ -69,10 +73,48 @@ public class Win6 extends JFrame {
 		panel_1.add(horizontalGlue);
 
 		JButton btnNew = new JButton("New");
+		btnNew.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!draw) {
+					draw = true;
+					rect = true;
+					btnNew.setBackground(Color.WHITE);
+					Path.clear();
+					startX = startY = endX = endY = -1;
+					Task3_6.l.clear();
+					map.clear();
+					DrawPane.repaint();
+				} else {
+					draw = false;
+					btnNew.setBackground(null);
+				}
+			}
+		});
 		panel_1.add(btnNew);
 
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		panel_1.add(horizontalStrut);
+
+		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!draw) {
+					draw = true;
+					btnAdd.setBackground(Color.WHITE);
+					Path.clear();
+					startX = startY = endX = endY = -1;
+				} else {
+					draw = false;
+					btnAdd.setBackground(null);
+				}
+			}
+		});
+		panel_1.add(btnAdd);
+
+		Component horizontalStrut1 = Box.createHorizontalStrut(20);
+		panel_1.add(horizontalStrut1);
 
 		JButton btnStrt = new JButton("Start");
 		btnStrt.addActionListener(new ActionListener() {
@@ -129,6 +171,8 @@ public class Win6 extends JFrame {
 		panel_1.add(horizontalGlue_1);
 
 		DrawPane.addMouseListener(new MouseAdapter() {
+			int x1, y1, x2, y2;
+
 			public void mousePressed(MouseEvent e) {
 				if (start) {
 					if (startX == -1 || startY == -1) {
@@ -151,14 +195,80 @@ public class Win6 extends JFrame {
 								+ Task3_6.l.getSize()[0] * (startY - Task3_6.l.getSize()[2]));
 						Task3_6.l.setEnd(endX - Task3_6.l.getSize()[3]
 								+ Task3_6.l.getSize()[0] * (endY - Task3_6.l.getSize()[2]));
-						
+
 						/*-----*/
-						
-						//Path = FindPath.findStandart();
+
+						// Path = FindPath.findStandart();
 						Path = FindPath.findMyQueue();
-						
+
 						/*-----*/
 					}
+				}
+
+				if (draw) {
+					x1 = Math.round(e.getX() / Task3_6.mas);
+					y1 = Math.round(e.getY() / Task3_6.mas);
+
+					DrawPane.repaint();
+					if (!rect) {
+						if (x1 > Task3_6.l.getSize()[3] - 1 && x1 < (Task3_6.l.getSize()[3] + Task3_6.l.getSize()[0])
+								&& y1 > Task3_6.l.getSize()[2] - 1
+								&& y1 < (Task3_6.l.getSize()[2] + Task3_6.l.getSize()[1])) {
+
+							if (!map.containsKey(x1 - Task3_6.l.getSize()[3]
+									+ (y1 - Task3_6.l.getSize()[2]) * Task3_6.l.getSize()[0])) {
+								map.put(x1 - Task3_6.l.getSize()[3]
+										+ (y1 - Task3_6.l.getSize()[2]) * Task3_6.l.getSize()[0],
+										Arrays.asList(G.RIGHT));
+							} else {
+								if (map.get(x1 - Task3_6.l.getSize()[3]
+										+ (y1 - Task3_6.l.getSize()[2]) * Task3_6.l.getSize()[0]).size() == 1) {
+									if (map.get(x1 - Task3_6.l.getSize()[3]
+											+ (y1 - Task3_6.l.getSize()[2]) * Task3_6.l.getSize()[0])
+											.contains(G.RIGHT)) {
+										map.put(x1 - Task3_6.l.getSize()[3]
+												+ (y1 - Task3_6.l.getSize()[2]) * Task3_6.l.getSize()[0],
+												Arrays.asList(G.BOTTOM));
+									} else {
+										map.put(x1 - Task3_6.l.getSize()[3]
+												+ (y1 - Task3_6.l.getSize()[2]) * Task3_6.l.getSize()[0],
+												Arrays.asList(G.RIGHT, G.BOTTOM));
+									}
+								} else {
+									map.remove(x1 - Task3_6.l.getSize()[3]
+											+ (y1 - Task3_6.l.getSize()[2]) * Task3_6.l.getSize()[0]);
+								}
+							}
+
+							Task3_6.l.clear();
+							Task3_6.l.update(-1, -1, -1, -1, map);
+							DrawPane.repaint();
+						}
+					}
+				}
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				if (rect) {
+					rect = false;
+
+					x2 = Math.round(e.getX() / Task3_6.mas);
+					y2 = Math.round(e.getY() / Task3_6.mas);
+
+					if (x1 > x2) {
+						int c = x2;
+						x2 = x1;
+						x1 = c;
+					}
+
+					if (y1 > y2) {
+						int c = y2;
+						y2 = y1;
+						y1 = c;
+					}
+
+					Task3_6.l.update(x2 - x1 + 1, y2 - y1 + 1, y1, x1, map);
+					DrawPane.repaint();
 				}
 			}
 		});

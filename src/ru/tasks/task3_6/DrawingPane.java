@@ -14,7 +14,6 @@ public class DrawingPane extends JPanel {
 	private int w;
 	private int h;
 	private int m;
-	private int top = Task3_6.l.getSize()[2], left = Task3_6.l.getSize()[3];
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -23,6 +22,9 @@ public class DrawingPane extends JPanel {
 
 		m = Task3_6.mas;
 		h = w = 20 * Task3_6.mas;
+
+		int top = Task3_6.l.getSize()[2];
+		int left = Task3_6.l.getSize()[3];
 
 		int i = 0;
 		while (i <= w) {
@@ -39,22 +41,26 @@ public class DrawingPane extends JPanel {
 		}
 
 		g2d.setStroke(new BasicStroke(3));
-		g2d.drawRect(left * Task3_6.mas, top * Task3_6.mas, Task3_6.l.getSize()[0] * Task3_6.mas,
-				Task3_6.l.getSize()[1] * Task3_6.mas);
+		if (Task3_6.l.getArray().size() > 0) {
+			g2d.drawRect(left * Task3_6.mas, top * Task3_6.mas, Task3_6.l.getSize()[0] * Task3_6.mas,
+					Task3_6.l.getSize()[1] * Task3_6.mas);
+		}
 
 		int row = Task3_6.l.getSize()[1];
 		int col = Task3_6.l.getSize()[0];
-		for (i = 0; i < col; i++) {
-			for (int j = 0; j < row; j++) {
-				if (Task3_6.l.getArray().get(i + j * col).getOneTop(G.RIGHT) == null) {
-					Line2D line = new Line2D.Double((left + i + 1) * Task3_6.mas, (top + j) * Task3_6.mas,
-							(left + i + 1) * Task3_6.mas, (top + j + 1) * Task3_6.mas);
-					g2d.draw(line);
-				}
-				if (Task3_6.l.getArray().get(i + j * col).getOneTop(G.BOTTOM) == null) {
-					Line2D line = new Line2D.Double((left + i) * Task3_6.mas, (top + j + 1) * Task3_6.mas,
-							(left + i + 1) * Task3_6.mas, (top + j + 1) * Task3_6.mas);
-					g2d.draw(line);
+		if (Task3_6.l.getArray().size() > 0) {
+			for (i = 0; i < col; i++) {
+				for (int j = 0; j < row; j++) {
+					if (Task3_6.l.getArray().get(i + j * col).getOneTop(G.RIGHT) == null) {
+						Line2D line = new Line2D.Double((left + i + 1) * Task3_6.mas, (top + j) * Task3_6.mas,
+								(left + i + 1) * Task3_6.mas, (top + j + 1) * Task3_6.mas);
+						g2d.draw(line);
+					}
+					if (Task3_6.l.getArray().get(i + j * col).getOneTop(G.BOTTOM) == null) {
+						Line2D line = new Line2D.Double((left + i) * Task3_6.mas, (top + j + 1) * Task3_6.mas,
+								(left + i + 1) * Task3_6.mas, (top + j + 1) * Task3_6.mas);
+						g2d.draw(line);
+					}
 				}
 			}
 		}

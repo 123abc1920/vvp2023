@@ -17,58 +17,59 @@ public class Labirynt {
 	}
 
 	public void update(int col, int row, int top, int left, Map<Integer, List<G>> map) {
-		this.width = col;
-		this.height = row;
-		this.top = top;
-		this.left = left;
+		if (col != -1 || row != -1 || top != -1 || left != -1) {
+			this.width = col;
+			this.height = row;
+			this.top = top;
+			this.left = left;
+		}
 
 		for (int i = 0; i < this.height * this.width; i++) {
 			Cell cell = new Cell();
 			cell.setNum(i);
 			array.add(cell);
 		}
-
+		
 		for (int j = 0; j < this.height; j++) {
 			for (int i = 0; i < this.width; i++) {
 				if (i != this.width - 1) {
 					if (!map.containsKey(j * this.width + i)) {
-						array.get(j * col + i).addTop(array.get(j * col + i + 1), G.RIGHT);
+						array.get(j * this.width + i).addTop(array.get(j * this.width + i + 1), G.RIGHT);
 					} else {
-						if (!map.get(j * col + i).contains(G.RIGHT)) {
-							array.get(j * col + i).addTop(array.get(j * col + i + 1), G.RIGHT);
+						if (!map.get(j * this.width + i).contains(G.RIGHT)) {
+							array.get(j * this.width + i).addTop(array.get(j * this.width + i + 1), G.RIGHT);
 						}
 					}
 				}
 				if (i != 0) {
-					if (!map.containsKey(j * col + i - 1)) {
-						array.get(j * col + i).addTop(array.get(j * col + i - 1), G.LEFT);
+					if (!map.containsKey(j * this.width + i - 1)) {
+						array.get(j * this.width + i).addTop(array.get(j * this.width + i - 1), G.LEFT);
 					} else {
-						if (!map.get(j * col + i - 1).contains(G.RIGHT)) {
-							array.get(j * col + i).addTop(array.get(j * col + i - 1), G.LEFT);
+						if (!map.get(j * this.width + i - 1).contains(G.RIGHT)) {
+							array.get(j * this.width + i).addTop(array.get(j * this.width + i - 1), G.LEFT);
 						}
 					}
 				}
-				if (j != row - 1) {
-					if (!map.containsKey(j * col + i)) {
-						array.get(j * col + i).addTop(array.get((j + 1) * col + i), G.BOTTOM);
+				if (j != this.height - 1) {
+					if (!map.containsKey(j * this.width + i)) {
+						array.get(j * this.width + i).addTop(array.get((j + 1) * this.width + i), G.BOTTOM);
 					} else {
-						if (!map.get(j * col + i).contains(G.BOTTOM)) {
-							array.get(j * col + i).addTop(array.get((j + 1) * col + i), G.BOTTOM);
+						if (!map.get(j * this.width + i).contains(G.BOTTOM)) {
+							array.get(j * this.width + i).addTop(array.get((j + 1) * this.width + i), G.BOTTOM);
 						}
 					}
 				}
 				if (j != 0) {
-					if (!map.containsKey((j - 1) * col + i)) {
-						array.get(j * col + i).addTop(array.get((j - 1) * col + i), G.TOP);
+					if (!map.containsKey((j - 1) * this.width + i)) {
+						array.get(j * this.width + i).addTop(array.get((j - 1) * this.width + i), G.TOP);
 					} else {
-						if (!map.get((j - 1) * col + i).contains(G.BOTTOM)) {
-							array.get(j * col + i).addTop(array.get((j - 1) * col + i), G.TOP);
+						if (!map.get((j - 1) * this.width + i).contains(G.BOTTOM)) {
+							array.get(j * this.width + i).addTop(array.get((j - 1) * this.width + i), G.TOP);
 						}
 					}
 				}
 			}
 		}
-
 	}
 
 	public void clear() {
