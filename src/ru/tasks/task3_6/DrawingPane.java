@@ -73,6 +73,7 @@ public class DrawingPane extends JPanel {
 					Task3_6.win.endY * Task3_6.mas + Task3_6.mas / 2);
 		}
 
+		g2d.setStroke(new BasicStroke(3));
 		for (int j = 0; j < Task3_6.win.Path.size() - 1; j++) {
 			g2d.drawLine(
 					(Task3_6.l.getSize()[3] + Task3_6.win.Path.get(j).getNum()

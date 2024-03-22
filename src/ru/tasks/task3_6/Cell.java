@@ -53,7 +53,7 @@ public class Cell {
 	public boolean getDone() {
 		return this.done;
 	}
-	
+
 	public void setPrev(Cell c) {
 		this.prev = c;
 	}

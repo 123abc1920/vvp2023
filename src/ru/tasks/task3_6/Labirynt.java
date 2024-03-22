@@ -12,26 +12,26 @@ public class Labirynt {
 	private Cell start;
 	private Cell end;
 
-	public Labirynt(int row, int col, int top, int left, Map<Integer, List<G>> map) {
+	public Labirynt(int col, int row, int top, int left, Map<Integer, List<G>> map) {
+		update(col, row, top, left, map);
+	}
+
+	public void update(int col, int row, int top, int left, Map<Integer, List<G>> map) {
 		this.width = col;
 		this.height = row;
 		this.top = top;
 		this.left = left;
 
-		update(row, col, top, left, map);
-	}
-
-	public void update(int row, int col, int top, int left, Map<Integer, List<G>> map) {
-		for (int i = 0; i < row * col; i++) {
+		for (int i = 0; i < this.height * this.width; i++) {
 			Cell cell = new Cell();
 			cell.setNum(i);
 			array.add(cell);
 		}
 
-		for (int j = 0; j < row; j++) {
-			for (int i = 0; i < col; i++) {
-				if (i != col - 1) {
-					if (!map.containsKey(j * col + i)) {
+		for (int j = 0; j < this.height; j++) {
+			for (int i = 0; i < this.width; i++) {
+				if (i != this.width - 1) {
+					if (!map.containsKey(j * this.width + i)) {
 						array.get(j * col + i).addTop(array.get(j * col + i + 1), G.RIGHT);
 					} else {
 						if (!map.get(j * col + i).contains(G.RIGHT)) {

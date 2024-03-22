@@ -80,6 +80,8 @@ public class Win6 extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (!start) {
 					startX = startY = endX = endY = -1;
+					Path.clear();
+					DrawPane.repaint();
 					start = true;
 					btnStrt.setBackground(Color.WHITE);
 				} else {
@@ -146,10 +148,16 @@ public class Win6 extends JFrame {
 						start = false;
 						btnStrt.setBackground(null);
 						Task3_6.l.setStart(startX - Task3_6.l.getSize()[3]
-								+ Task3_6.l.getSize()[0] * (startY - Task3_6.l.getSize()[3]) - 5);
+								+ Task3_6.l.getSize()[0] * (startY - Task3_6.l.getSize()[2]));
 						Task3_6.l.setEnd(endX - Task3_6.l.getSize()[3]
-								+ Task3_6.l.getSize()[0] * (endY - Task3_6.l.getSize()[3]) - 5);
-						Path = FindPath.find();
+								+ Task3_6.l.getSize()[0] * (endY - Task3_6.l.getSize()[2]));
+						
+						/*-----*/
+						
+						//Path = FindPath.findStandart();
+						Path = FindPath.findMyQueue();
+						
+						/*-----*/
 					}
 				}
 			}
