@@ -44,14 +44,17 @@ public class Win6 extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws FileNotFoundException 
 	 */
-	public Win6() {
+	public Win6() throws FileNotFoundException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		map=readWrite.read();
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -73,66 +76,18 @@ public class Win6 extends JFrame {
 		panel_1.add(horizontalGlue);
 
 		JButton btnNew = new JButton("New");
-		btnNew.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!draw) {
-					draw = true;
-					rect = true;
-					btnNew.setBackground(Color.WHITE);
-					Path.clear();
-					startX = startY = endX = endY = -1;
-					Task3_6.l.clear();
-					map.clear();
-					DrawPane.repaint();
-				} else {
-					draw = false;
-					btnNew.setBackground(null);
-				}
-			}
-		});
 		panel_1.add(btnNew);
 
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		panel_1.add(horizontalStrut);
 
 		JButton btnAdd = new JButton("Add");
-		btnAdd.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!draw) {
-					draw = true;
-					btnAdd.setBackground(Color.WHITE);
-					Path.clear();
-					startX = startY = endX = endY = -1;
-				} else {
-					draw = false;
-					btnAdd.setBackground(null);
-				}
-			}
-		});
 		panel_1.add(btnAdd);
 
 		Component horizontalStrut1 = Box.createHorizontalStrut(20);
 		panel_1.add(horizontalStrut1);
 
 		JButton btnStrt = new JButton("Start");
-		btnStrt.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!start) {
-					startX = startY = endX = endY = -1;
-					Path.clear();
-					DrawPane.repaint();
-					start = true;
-					btnStrt.setBackground(Color.WHITE);
-				} else {
-					start = false;
-					btnStrt.setBackground(null);
-					startX = startY = endX = endY = -1;
-				}
-			}
-		});
 		panel_1.add(btnStrt);
 
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
@@ -145,9 +100,81 @@ public class Win6 extends JFrame {
 		panel_1.add(horizontalStrut_2);
 
 		JButton btnRead = new JButton("Read");
+		panel_1.add(btnRead);
+
+		Component horizontalGlue_1 = Box.createHorizontalGlue();
+		panel_1.add(horizontalGlue_1);
+
+		/*----------*/
+
+		btnNew.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!draw) {
+					draw = true;
+					rect = true;
+					Path.clear();
+					startX = startY = endX = endY = -1;
+					Task3_6.l.clear();
+					map.clear();
+					DrawPane.repaint();
+					btnNew.setBackground(Color.WHITE);
+					btnAdd.setEnabled(false);
+					btnStrt.setEnabled(false);
+				} else {
+					draw = false;
+					btnNew.setBackground(null);
+					btnAdd.setEnabled(true);
+					btnStrt.setEnabled(true);
+				}
+			}
+		});
+
+		btnStrt.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!start) {
+					startX = startY = endX = endY = -1;
+					Path.clear();
+					DrawPane.repaint();
+					start = true;
+					btnStrt.setBackground(Color.WHITE);
+					btnAdd.setEnabled(false);
+					btnNew.setEnabled(false);
+				} else {
+					start = false;
+					btnStrt.setBackground(null);
+					startX = startY = endX = endY = -1;
+					btnAdd.setEnabled(true);
+					btnNew.setEnabled(true);
+				}
+			}
+		});
+
+		btnAdd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!draw) {
+					draw = true;
+					Path.clear();
+					startX = startY = endX = endY = -1;
+					btnAdd.setBackground(Color.WHITE);
+					btnStrt.setEnabled(false);
+					btnNew.setEnabled(false);
+				} else {
+					draw = false;
+					btnAdd.setBackground(null);
+					btnStrt.setEnabled(true);
+					btnNew.setEnabled(true);
+				}
+			}
+		});
+
 		btnRead.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				draw = false;
+				rect = false;
 				try {
 					map = readWrite.read();
 				} catch (FileNotFoundException e1) {
@@ -165,10 +192,19 @@ public class Win6 extends JFrame {
 				DrawPane.repaint();
 			}
 		});
-		panel_1.add(btnRead);
 
-		Component horizontalGlue_1 = Box.createHorizontalGlue();
-		panel_1.add(horizontalGlue_1);
+		btnSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				draw = false;
+				rect = false;
+				try {
+					readWrite.write(map);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		DrawPane.addMouseListener(new MouseAdapter() {
 			int x1, y1, x2, y2;
@@ -191,6 +227,9 @@ public class Win6 extends JFrame {
 						DrawPane.repaint();
 						start = false;
 						btnStrt.setBackground(null);
+						btnAdd.setEnabled(true);
+						btnNew.setEnabled(true);
+
 						Task3_6.l.setStart(startX - Task3_6.l.getSize()[3]
 								+ Task3_6.l.getSize()[0] * (startY - Task3_6.l.getSize()[2]));
 						Task3_6.l.setEnd(endX - Task3_6.l.getSize()[3]
