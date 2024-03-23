@@ -41,8 +41,22 @@ public class Task4_24 {
 		for (Product t : l2) {
 			System.out.print(t.getName() + " " + t.getCost() + " ");
 		}
+		System.out.println();
 
 		System.out.println();
+		System.out.println(Massives.indexOf(arr, -10));
+		System.out.println(Massives.indexOfHigher(arr, 20));
+		System.out.println(Massives.indexOfLower(arr, 49));
+
+		System.out.println();
+		System.out.println(Massives.indexOf(l, "c0"));
+		System.out.println(Massives.indexOfHigher(l, "c00"));
+		System.out.println(Massives.indexOfLower(l, "baa"));
+		
+		System.out.println();
+		System.out.println(Massives.indexOf(l2, new Product("milk2", 309)));
+		System.out.println(Massives.indexOfHigher(l2, new Product("milk", 309)));
+		System.out.println(Massives.indexOfLower(l2, new Product("milk", 309)));
 
 		Win4 win = new Win4(arr, l, l2);
 		win.setVisible(true);

@@ -1,7 +1,10 @@
 package ru.tasks.task4_24;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,6 +24,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.JTextField;
 
 public class Win4 extends JFrame {
 
@@ -33,6 +37,8 @@ public class Win4 extends JFrame {
 	private DefaultTableModel intsModel;
 	private DefaultTableModel stringModel;
 	private DefaultTableModel productModel;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Create the frame.
@@ -117,6 +123,38 @@ public class Win4 extends JFrame {
 		table_2.setModel(productModel);
 		scrollPane_2.setViewportView(table_2);
 
+		Component verticalStrut_1 = Box.createVerticalStrut(20);
+		panel.add(verticalStrut_1);
+
+		JPanel panel_5 = new JPanel();
+		panel_5.setBorder(new EmptyBorder(0, 15, 0, 15));
+		panel.add(panel_5);
+		panel_5.setLayout(new BorderLayout(0, 0));
+
+		JScrollPane scrollPane_3 = new JScrollPane();
+		panel_5.add(scrollPane_3, BorderLayout.CENTER);
+
+		JPanel panel_6 = new JPanel();
+		scrollPane_3.setViewportView(panel_6);
+		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
+
+		Component horizontalGlue = Box.createHorizontalGlue();
+		panel_6.add(horizontalGlue);
+
+		textField = new JTextField();
+		panel_6.add(textField);
+		textField.setColumns(10);
+
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		panel_6.add(horizontalStrut);
+
+		textField_1 = new JTextField();
+		panel_6.add(textField_1);
+		textField_1.setColumns(10);
+
+		Component horizontalGlue_1 = Box.createHorizontalGlue();
+		panel_6.add(horizontalGlue_1);
+
 		Component verticalStrut = Box.createVerticalStrut(20);
 		panel.add(verticalStrut);
 
@@ -127,8 +165,35 @@ public class Win4 extends JFrame {
 		Component horizontalGlue_2 = Box.createHorizontalGlue();
 		panel_4.add(horizontalGlue_2);
 
-		JButton btnRead = new JButton("Read");
-		panel_4.add(btnRead);
+		JButton btnFind = new JButton("Find");
+		btnFind.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String text = textField.getText();
+				Scanner in = new Scanner(text);
+				in.useDelimiter(" ");
+
+				int i = in.nextInt();
+				if (i == 1) {
+					int j = in.nextInt();
+					text = "In massive: " + Massives.indexOf(ints, j) + " Higher: " + Massives.indexOfHigher(ints, j)
+							+ " Lower: " + Massives.indexOfLower(ints, j);
+				} else {
+					String j = in.next();
+					if (i == 2) {
+						text = "In massive: " + Massives.indexOf(string, j) + " Higher: "
+								+ Massives.indexOfHigher(string, j) + " Lower: " + Massives.indexOfLower(string, j);
+					} else {
+						Product p = new Product(j, in.nextInt());
+						text = "In massive: " + Massives.indexOf(product, p) + " Higher: "
+								+ Massives.indexOfHigher(product, p) + " Lower: " + Massives.indexOfLower(product, p);
+					}
+				}
+
+				textField_1.setText(text);
+			}
+		});
+		panel_4.add(btnFind);
 
 		Component horizontalGlue_3 = Box.createHorizontalGlue();
 		panel_4.add(horizontalGlue_3);

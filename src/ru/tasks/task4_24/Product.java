@@ -32,8 +32,10 @@ public class Product<T> implements Comparable<Product> {
 		} else if (this.getName().compareTo(o.getName()) == 0) {
 			if (this.getCost() > o.getCost()) {
 				return 1;
-			} else {
+			} else if (this.getCost() < o.getCost()) {
 				return -1;
+			} else {
+				return 0;
 			}
 		} else {
 			return -1;
